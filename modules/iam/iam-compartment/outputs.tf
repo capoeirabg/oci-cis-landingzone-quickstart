@@ -3,5 +3,5 @@
 
 output "compartments" {
   description = "The compartments, indexed by keys in var.compartments."
-  value = {for k, v in var.compartments : k => oci_identity_compartment.these[k]}
+  value       = { for k, v in var.compartments : k => oci_identity_compartment.these[k] }
 } 

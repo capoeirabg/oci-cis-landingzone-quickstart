@@ -54,7 +54,7 @@ locals {
 #         # "cislz-consumer-groups-dyn-compute-agent":"${local.appdev_computeagent_dynamic_group_name}"
 #       }
 #     }
-   
+
 #     (local.database_compartment_key) : {
 #       name : local.database_compartment_name
 #       ocid : local.database_compartment_id
@@ -72,7 +72,7 @@ locals {
 #     }
 #  }
 
-  
+
 #   compartment_policies = [for k, v in module.cislz_compartments.compartments : {
 #     name = v.name,
 #     id   = v.id,

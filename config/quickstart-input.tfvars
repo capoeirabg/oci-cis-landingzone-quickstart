@@ -105,8 +105,8 @@ cis_level            = "1"
 # ------------------------------------------------------
 # ----- Events and Notifications
 # ------------------------------------------------------
-network_admin_email_endpoints    = ["<email1>","<email2>","...","<emailn>"] # list of email addresses for all network related notifications.
-security_admin_email_endpoints   = ["<email1>","<e-mail2>","...","<emailn>"] # list of email addresses for all security related notifications.
+network_admin_email_endpoints  = ["<email1>", "<email2>", "...", "<emailn>"]  # list of email addresses for all network related notifications.
+security_admin_email_endpoints = ["<email1>", "<e-mail2>", "...", "<emailn>"] # list of email addresses for all security related notifications.
 # compute_admin_email_endpoints  = ["<email1>","<e-mail2>","...","<emailn>"] # list of email addresses for all compute related notifications.
 # storage_admin_email_endpoints  = ["<email1>","<e-mail2>","...","<emailn>"] # list of email addresses for all storage related notifications.
 # database_admin_email_endpoints = ["<email1>","<e-mail2>","...","<emailn>"] # list of email addresses for all database related notifications.

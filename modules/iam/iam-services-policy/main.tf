@@ -13,7 +13,7 @@ terraform {
 locals {
   cloud_guard_statements = [
     "Allow service cloudguard to read all-resources in tenancy",
-    "Allow service cloudguard to use network-security-groups in tenancy"]
+  "Allow service cloudguard to use network-security-groups in tenancy"]
 
   vss_statements = [
     "Allow service vulnerability-scanning-service to manage instances in tenancy",
@@ -34,17 +34,17 @@ locals {
     statements     = concat(local.cloud_guard_statements, local.vss_statements, local.os_mgmt_statements)
     defined_tags   = var.defined_tags
     freeform_tags  = var.freeform_tags
-  } if var.enable_tenancy_level_policies }  
+  } if var.enable_tenancy_level_policies }
 
   service_policies = merge(var.policies, local.tenancy_policies)
 }
 
 resource "oci_identity_policy" "these" {
-  for_each = local.service_policies
-    name           = each.value.name
-    description    = each.value.description
-    compartment_id = each.value.compartment_id
-    statements     = each.value.statements
-    defined_tags   = each.value.defined_tags
-    freeform_tags  = each.value.freeform_tags
+  for_each       = local.service_policies
+  name           = each.value.name
+  description    = each.value.description
+  compartment_id = each.value.compartment_id
+  statements     = each.value.statements
+  defined_tags   = each.value.defined_tags
+  freeform_tags  = each.value.freeform_tags
 }

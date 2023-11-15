@@ -29,20 +29,20 @@ terraform {
 
 resource "oci_events_rule" "these" {
   for_each = var.rules
+  actions {
     actions {
-        actions {
-            action_type = each.value.actions_action_type
-            is_enabled  = each.value.actions_is_enabled
+      action_type = each.value.actions_action_type
+      is_enabled  = each.value.actions_is_enabled
 
-            description = each.value.actions_description
-            topic_id    = each.value.topic_id
-        }
+      description = each.value.actions_description
+      topic_id    = each.value.topic_id
     }
-    compartment_id = each.value.compartment_id
-    condition      = each.value.condition
-    display_name   = each.key
-    is_enabled     = each.value.is_enabled
-    description    = each.value.description
-    defined_tags   = each.value.defined_tags
-    freeform_tags  = each.value.freeform_tags
+  }
+  compartment_id = each.value.compartment_id
+  condition      = each.value.condition
+  display_name   = each.key
+  is_enabled     = each.value.is_enabled
+  description    = each.value.description
+  defined_tags   = each.value.defined_tags
+  freeform_tags  = each.value.freeform_tags
 }

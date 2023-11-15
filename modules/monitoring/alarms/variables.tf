@@ -4,19 +4,19 @@
 variable "alarms" {
   description = "Alarms"
   type = map(object({
-     compartment_id = string
-     destinations = list(string)
-     display_name = string
-     is_enabled = bool
-     metric_compartment_id = string
-     namespace = string
-     query = string
-     severity = string
-     metric_compartment_id_in_subtree = bool
-     message_format = string
-     pending_duration = string
-     defined_tags = map(string)
-     freeform_tags = map(string)
-    }))
+    compartment_id                   = string
+    destinations                     = list(string)
+    display_name                     = string
+    is_enabled                       = bool
+    metric_compartment_id            = string
+    namespace                        = string
+    query                            = string
+    severity                         = string
+    metric_compartment_id_in_subtree = bool
+    message_format                   = string
+    pending_duration                 = string
+    defined_tags                     = map(string)
+    freeform_tags                    = map(string)
+  }))
 }
    

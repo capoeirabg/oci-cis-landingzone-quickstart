@@ -40,7 +40,7 @@ locals {
   # var.workload_team_manages_database ? { "name" : "${local.appdev_admin_group_name}", "roles" : "application,basic" } : { "name" : "${local.appdev_admin_group_name}", "roles" : "application,database,basic" }
   # db_dev_tenancy_level_roles  = var.workload_team_manages_database ? null : { "name" : "${local.database_admin_group_name}", "roles" : "database,basic" }
   tenancy_level_roles = local.app_dev_tenancy_level_roles
-  
+
   empty_template_policies_configuration = {
     enable_cis_benchmark_checks : false
     template_policies : null

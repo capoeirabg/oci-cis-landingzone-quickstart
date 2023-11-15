@@ -11,7 +11,7 @@ region        = "us-ashburn-1"
 
 # (...) Endpoint notifications assignments. See example above.
 
-create_service_connector_audit = true
-service_connector_audit_state = "ACTIVE"
+create_service_connector_audit       = true
+service_connector_audit_state        = "ACTIVE"
 create_service_connector_vcnFlowLogs = true
-service_connector_vcnFlowLogs_state = "ACTIVE"
+service_connector_vcnFlowLogs_state  = "ACTIVE"

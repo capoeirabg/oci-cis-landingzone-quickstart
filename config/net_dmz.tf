@@ -3,9 +3,9 @@
 
 locals {
 
-  all_dmz_defined_tags = {}
+  all_dmz_defined_tags  = {}
   all_dmz_freeform_tags = {}
-  
+
   dmz_vcn = var.hub_spoke_architecture && length(var.dmz_vcn_cidr) > 0 ? { (local.dmz_vcn_name.name) = {
     compartment_id    = local.network_compartment_id #module.lz_compartments.compartments[local.network_compartment.key].id
     cidr              = var.dmz_vcn_cidr
@@ -31,9 +31,9 @@ locals {
         egress_rules : []
         defined_tags : local.dmz_defined_tags
         freeform_tags : local.dmz_freeform_tags
-      }}
-    }}
-  }} : {}
+      } }
+    } }
+  } } : {}
 
   dmz_route_tables = { for key, subnet in module.lz_vcn_dmz.subnets : replace("${key}-rtable", "vcn-", "") => {
     compartment_id = subnet.compartment_id
@@ -87,14 +87,14 @@ locals {
         network_entity_id = var.existing_drg_id != "" ? var.existing_drg_id : (module.lz_drg.drg != null ? module.lz_drg.drg.id : null)
         description       = "Traffic destined to Exadata VCN (${cidr} CIDR range) goes to DRG."
         }
-      ])
-  }}
+    ])
+  } }
 
   ### DON'T TOUCH THESE ###
-  default_dmz_defined_tags = null
+  default_dmz_defined_tags  = null
   default_dmz_freeform_tags = local.landing_zone_tags
-  
-  dmz_defined_tags = length(local.all_dmz_defined_tags) > 0 ? local.all_dmz_defined_tags : local.default_dmz_defined_tags
+
+  dmz_defined_tags  = length(local.all_dmz_defined_tags) > 0 ? local.all_dmz_defined_tags : local.default_dmz_defined_tags
   dmz_freeform_tags = length(local.all_dmz_freeform_tags) > 0 ? merge(local.all_dmz_freeform_tags, local.default_dmz_freeform_tags) : local.default_dmz_freeform_tags
 
 }

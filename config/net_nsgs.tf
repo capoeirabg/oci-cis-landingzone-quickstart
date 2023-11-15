@@ -5,7 +5,7 @@
 
 locals {
 
-  all_nsgs_defined_tags = {}
+  all_nsgs_defined_tags  = {}
   all_nsgs_freeform_tags = {}
 
   bastions_nsgs = { for k, v in module.lz_vcn_spokes.vcns : "${k}-bastion-nsg" => {
@@ -427,10 +427,10 @@ locals {
   } : {}
 
   ### DON'T TOUCH THESE ###
-  default_nsgs_defined_tags = null
+  default_nsgs_defined_tags  = null
   default_nsgs_freeform_tags = local.landing_zone_tags
 
-  nsgs_defined_tags = length(local.all_nsgs_defined_tags) > 0 ? local.all_nsgs_defined_tags : local.default_nsgs_defined_tags
+  nsgs_defined_tags  = length(local.all_nsgs_defined_tags) > 0 ? local.all_nsgs_defined_tags : local.default_nsgs_defined_tags
   nsgs_freeform_tags = length(local.all_nsgs_freeform_tags) > 0 ? merge(local.all_nsgs_freeform_tags, local.default_nsgs_freeform_tags) : local.default_nsgs_freeform_tags
 
 }

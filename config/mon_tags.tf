@@ -15,21 +15,21 @@ locals {
   tag_defaults_compartment_id  = local.enclosing_compartment_id
   is_create_namespace          = !var.extend_landing_zone_to_new_region
 
-  all_tags_defined_tags = {}
+  all_tags_defined_tags  = {}
   all_tags_freeform_tags = {}
 
   ##### DON'T TOUCH ANYTHING BELOW #####
-  default_tags_defined_tags = null
+  default_tags_defined_tags  = null
   default_tags_freeform_tags = local.landing_zone_tags
-  
-  tags_defined_tags = length(local.all_tags_defined_tags) > 0 ? local.all_tags_defined_tags : local.default_tags_defined_tags
+
+  tags_defined_tags  = length(local.all_tags_defined_tags) > 0 ? local.all_tags_defined_tags : local.default_tags_defined_tags
   tags_freeform_tags = length(local.all_tags_freeform_tags) > 0 ? merge(local.all_tags_freeform_tags, local.default_tags_freeform_tags) : local.default_tags_freeform_tags
-  
+
   createdby_tag_name = "CreatedBy"
   createdon_tag_name = "CreatedOn"
 
   default_tag_namespace_name = "${var.service_label}-namesp"
-  
+
   default_tags = { # the map keys are meant to be the tag names.
     (local.createdby_tag_name) = {
       tag_description         = "CIS Landing Zone tag that identifies who created the resource."
@@ -67,7 +67,7 @@ module "lz_tags" {
 }
 
 module "lz_arch_center_tag" {
-  count = !var.extend_landing_zone_to_new_region ? 1 : 0
+  count         = !var.extend_landing_zone_to_new_region ? 1 : 0
   source        = "../modules/monitoring/tags-arch-center"
   providers     = { oci = oci.home }
   tenancy_ocid  = local.tag_namespace_compartment_id

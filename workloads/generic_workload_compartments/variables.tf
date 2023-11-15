@@ -98,18 +98,18 @@ variable "existing_lz_appdev_compartment_ocid" {
 
 variable "workload_names" {
   description = "List of workload names, each workload will get a compartment created in the AppDev Compartment. The names must be unique within the AppDev compartment."
-  type        = list
-  
+  type        = list(any)
+
 }
 
 variable "create_workload_groups_and_policies" {
   description = "If *true* an OCI IAM group and corresponding policies will be created to align to the workload compartment group created."
-  type = bool
-  default = true
+  type        = bool
+  default     = true
 }
 
 variable "create_workload_dynamic_groups_and_policies" {
   description = "If *true* a dynamic group and corresponding policies will be created to align to the workload compartment group created."
-  type = bool
-  default = true
+  type        = bool
+  default     = true
 }

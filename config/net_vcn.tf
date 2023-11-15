@@ -2,17 +2,17 @@
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 locals {
-  all_vcn_defined_tags = {}
+  all_vcn_defined_tags  = {}
   all_vcn_freeform_tags = {}
-  
+
   # # Subnet Names used can be changed first subnet will be Public if var.no_internet_access is false
   # spoke_subnet_names = ["web", "app", "db"]
   # # Subnet Names used can be changed first subnet will be Public if var.no_internet_access is false
   # dmz_subnet_names = ["outdoor","indoor","mgmt","ha", "diag"]
 
   auto_vcns_map = { for v in var.vcn_cidrs : "vcn${index(var.vcn_cidrs, v)}" => {
-    name = length(var.vcn_names) > 0 ? (length(regexall("[a-zA-Z0-9-]+", var.vcn_names[index(var.vcn_cidrs, v)])) > 0 ? join("", regexall("[a-zA-Z0-9-]+", var.vcn_names[index(var.vcn_cidrs, v)])) : var.vcn_names[index(var.vcn_cidrs, v)]) : "${var.service_label}-${index(var.vcn_cidrs, v)}-vcn"
-    cidr = v
+    name         = length(var.vcn_names) > 0 ? (length(regexall("[a-zA-Z0-9-]+", var.vcn_names[index(var.vcn_cidrs, v)])) > 0 ? join("", regexall("[a-zA-Z0-9-]+", var.vcn_names[index(var.vcn_cidrs, v)])) : var.vcn_names[index(var.vcn_cidrs, v)]) : "${var.service_label}-${index(var.vcn_cidrs, v)}-vcn"
+    cidr         = v
     subnet_names = local.spoke_subnet_names
     subnet_cidrs = cidrsubnets(v, local.spoke_subnet_size...)
     }
@@ -44,18 +44,18 @@ locals {
     compartment_id    = local.network_compartment_id #module.lz_compartments.compartments[local.network_compartment.key].id
     cidr              = vcn.cidr
     dns_label         = length(regexall("[a-zA-Z0-9]+", vcn.name)) > 0 ? "${substr(join("", regexall("[a-zA-Z0-9]+", vcn.name)), 0, 11)}${local.region_key}" : "${substr(vcn.name, 0, 11)}${local.region_key}"
-    is_create_igw     = length(var.dmz_vcn_cidr) > 0 ? false : (! var.no_internet_access == true ? true : false)
+    is_create_igw     = length(var.dmz_vcn_cidr) > 0 ? false : (!var.no_internet_access == true ? true : false)
     is_attach_drg     = var.is_vcn_onprem_connected == true || var.hub_spoke_architecture == true ? (var.dmz_for_firewall == true ? false : true) : false
     block_nat_traffic = false
     defined_tags      = local.vcn_defined_tags
     freeform_tags     = local.vcn_freeform_tags
     subnets = { for s in vcn.subnet_names : replace("${vcn.name}-${s}-subnet", "-vcn", "") => {
-      compartment_id  = null
-      name            = replace("${vcn.name}-${s}-subnet", "-vcn", "")
-      defined_tags    = local.vcn_defined_tags
-      freeform_tags   = local.vcn_freeform_tags
-#      cidr            = cidrsubnet(vcn.cidr, 4, index(local.spoke_subnet_names, s))
-      cidr            = vcn.subnet_cidrs[index(vcn.subnet_names,s)]
+      compartment_id = null
+      name           = replace("${vcn.name}-${s}-subnet", "-vcn", "")
+      defined_tags   = local.vcn_defined_tags
+      freeform_tags  = local.vcn_freeform_tags
+      #      cidr            = cidrsubnet(vcn.cidr, 4, index(local.spoke_subnet_names, s))
+      cidr            = vcn.subnet_cidrs[index(vcn.subnet_names, s)]
       dns_label       = s
       private         = length(var.dmz_vcn_cidr) > 0 || var.no_internet_access ? true : (index(local.spoke_subnet_names, s) == 0 ? false : true)
       dhcp_options_id = null
@@ -71,7 +71,7 @@ locals {
           src_type : "CIDR_BLOCK"
           icmp_type : null
           icmp_code : null
-          src_port_min : null 
+          src_port_min : null
           src_port_max : null
           dst_port_min : "22"
           dst_port_max : "22"
@@ -85,7 +85,7 @@ locals {
           dst_type : "CIDR_BLOCK"
           icmp_type : null
           icmp_code : null
-          src_port_min : null 
+          src_port_min : null
           src_port_max : null
           dst_port_min : "22"
           dst_port_max : "22"
@@ -123,7 +123,7 @@ locals {
       description       = "Traffic destined to ${local.valid_service_gateway_cidrs[0]} goes to Service Gateway."
       },
       {
-        is_create         = length(var.dmz_vcn_cidr) == 0 && ! var.no_internet_access ? true : false
+        is_create         = length(var.dmz_vcn_cidr) == 0 && !var.no_internet_access ? true : false
         destination       = local.valid_service_gateway_cidrs[1]
         destination_type  = "SERVICE_CIDR_BLOCK"
         network_entity_id = module.lz_vcn_spokes.service_gateways[subnet.vcn_id].id
@@ -137,10 +137,10 @@ locals {
         description       = "Traffic destined to ${local.anywhere} goes to Internet Gateway."
       },
       {
-        is_create         = length(var.dmz_vcn_cidr) == 0 && ! var.no_internet_access ? true : false
+        is_create         = length(var.dmz_vcn_cidr) == 0 && !var.no_internet_access ? true : false
         destination       = local.anywhere
         destination_type  = "CIDR_BLOCK"
-        network_entity_id = length(var.dmz_vcn_cidr) == 0 && ! var.no_internet_access ? module.lz_vcn_spokes.internet_gateways[subnet.vcn_id].id : null
+        network_entity_id = length(var.dmz_vcn_cidr) == 0 && !var.no_internet_access ? module.lz_vcn_spokes.internet_gateways[subnet.vcn_id].id : null
         description       = "Traffic destined to ${local.anywhere} goes to Internet Gateway."
 
       }
@@ -186,10 +186,10 @@ locals {
         description       = "Traffic destined to ${local.anywhere} goes to DRG."
       },
       {
-        is_create         = length(var.dmz_vcn_cidr) == 0 && ! var.no_internet_access ? true : false
+        is_create         = length(var.dmz_vcn_cidr) == 0 && !var.no_internet_access ? true : false
         destination       = local.anywhere
         destination_type  = "CIDR_BLOCK"
-        network_entity_id = length(var.dmz_vcn_cidr) == 0 && ! var.no_internet_access ? module.lz_vcn_spokes.nat_gateways[subnet.vcn_id].id : null
+        network_entity_id = length(var.dmz_vcn_cidr) == 0 && !var.no_internet_access ? module.lz_vcn_spokes.nat_gateways[subnet.vcn_id].id : null
         description       = "Traffic destined to ${local.anywhere} goes to NAT Gateway."
 
       }
@@ -224,12 +224,12 @@ locals {
   lz_subnets_route_tables = merge(local.web_route_tables, local.backend_route_tables)
 
   ### DON'T TOUCH THESE ###
-  default_vcn_defined_tags = null
+  default_vcn_defined_tags  = null
   default_vcn_freeform_tags = local.landing_zone_tags
-  
-  vcn_defined_tags = length(local.all_vcn_defined_tags) > 0 ? local.all_vcn_defined_tags : local.default_vcn_defined_tags
+
+  vcn_defined_tags  = length(local.all_vcn_defined_tags) > 0 ? local.all_vcn_defined_tags : local.default_vcn_defined_tags
   vcn_freeform_tags = length(local.all_vcn_freeform_tags) > 0 ? merge(local.all_vcn_freeform_tags, local.default_vcn_freeform_tags) : local.default_vcn_freeform_tags
-  
+
 
 }
 

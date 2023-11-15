@@ -4,9 +4,9 @@
 ### This Terraform configuration creates Landing Zone NSGs (Network Security Groups) for the DMZ VCN
 
 locals {
-  all_dmz_nsgs_defined_tags = {}
+  all_dmz_nsgs_defined_tags  = {}
   all_dmz_nsgs_freeform_tags = {}
-  
+
   dmz_bastions_nsg_name   = length(var.dmz_vcn_cidr) > 0 ? "${local.dmz_vcn_name.name}-bastion-nsg" : null
   dmz_services_nsg_name   = length(var.dmz_vcn_cidr) > 0 ? "${local.dmz_vcn_name.name}-services-nsg" : null
   dmz_public_dst_nsg_name = length(var.dmz_vcn_cidr) > 0 ? "${local.dmz_vcn_name.name}-public-dst-nsg" : null
@@ -87,8 +87,8 @@ locals {
   } } : {}
 
   public_dst_cidrs_nsg = length(var.public_dst_cidrs) > 0 && length(var.dmz_vcn_cidr) > 0 ? { (local.dmz_public_dst_nsg_name) : {
-    vcn_id = module.lz_vcn_dmz.vcns[local.dmz_vcn_name.name].id
-    defined_tags = local.dmz_nsgs_defined_tags
+    vcn_id        = module.lz_vcn_dmz.vcns[local.dmz_vcn_name.name].id
+    defined_tags  = local.dmz_nsgs_defined_tags
     freeform_tags = local.dmz_nsgs_freeform_tags
     ingress_rules : {},
     egress_rules : { for cidr in var.public_dst_cidrs : "https-public-dst-egress-rule-${index(var.public_dst_cidrs, cidr)}" => {
@@ -108,12 +108,12 @@ locals {
   } } : {}
 
   ### DON'T TOUCH THESE ###
-  default_dmz_nsgs_defined_tags = null
+  default_dmz_nsgs_defined_tags  = null
   default_dmz_nsgs_freeform_tags = local.landing_zone_tags
-  
-  dmz_nsgs_defined_tags = length(local.all_dmz_nsgs_defined_tags) > 0 ? local.all_dmz_nsgs_defined_tags : local.default_dmz_nsgs_defined_tags
+
+  dmz_nsgs_defined_tags  = length(local.all_dmz_nsgs_defined_tags) > 0 ? local.all_dmz_nsgs_defined_tags : local.default_dmz_nsgs_defined_tags
   dmz_nsgs_freeform_tags = length(local.all_dmz_nsgs_freeform_tags) > 0 ? merge(local.all_dmz_nsgs_freeform_tags, local.default_dmz_nsgs_freeform_tags) : local.default_dmz_nsgs_freeform_tags
-  
+
 }
 
 module "lz_nsgs_dmz" {
@@ -123,8 +123,8 @@ module "lz_nsgs_dmz" {
   compartment_id = local.network_compartment_id #module.lz_compartments.compartments[local.network_compartment.key].id
   nsgs = merge(local.public_dst_cidrs_nsg, {
     (local.dmz_bastions_nsg_name) : {
-      vcn_id = module.lz_vcn_dmz.vcns[local.dmz_vcn_name.name].id
-      defined_tags = local.dmz_nsgs_defined_tags
+      vcn_id        = module.lz_vcn_dmz.vcns[local.dmz_vcn_name.name].id
+      defined_tags  = local.dmz_nsgs_defined_tags
       freeform_tags = local.dmz_nsgs_freeform_tags
       ingress_rules : merge(
         { for cidr in var.public_src_bastion_cidrs : "ssh-public-ingress-rule-${index(var.public_src_bastion_cidrs, cidr)}" => {
@@ -156,8 +156,8 @@ module "lz_nsgs_dmz" {
           icmp_code : null
 
           }
-      },
-      { for cidr in var.onprem_src_ssh_cidrs : "rdp-onprem-ingress-rule-${index(var.onprem_src_ssh_cidrs, cidr)}" => {
+        },
+        { for cidr in var.onprem_src_ssh_cidrs : "rdp-onprem-ingress-rule-${index(var.onprem_src_ssh_cidrs, cidr)}" => {
           is_create : length(var.onprem_src_ssh_cidrs) > 0,
           description : "Allows RDP connections from hosts in on-premises ${cidr} CIDR range.",
           protocol : "6",
@@ -172,7 +172,7 @@ module "lz_nsgs_dmz" {
           icmp_code : null
 
           }
-      }
+        }
       ),
       egress_rules : merge(local.ssh_dmz_to_spokes_nsg_egress_rules, local.ssh_dmz_to_exacs_nsg_egress_rules,
         { dmz-services-egress-rule : {
@@ -205,8 +205,8 @@ module "lz_nsgs_dmz" {
       } })
     },
     (local.dmz_services_nsg_name) : {
-      vcn_id = module.lz_vcn_dmz.vcns[local.dmz_vcn_name.name].id
-      defined_tags = local.dmz_nsgs_defined_tags
+      vcn_id        = module.lz_vcn_dmz.vcns[local.dmz_vcn_name.name].id
+      defined_tags  = local.dmz_nsgs_defined_tags
       freeform_tags = local.dmz_nsgs_freeform_tags
       ingress_rules : merge({
         ssh-ingress-rule : {

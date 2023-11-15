@@ -7,15 +7,15 @@ private_key_password = ""
 service_label = "vision"
 region        = "us-phoenix-1"
 
-use_enclosing_compartment = true
+use_enclosing_compartment           = true
 existing_enclosing_compartment_ocid = "ocid1.compartment.oc1..aaa...vves2a"
 
 extend_landing_zone_to_new_region = true
 
-vcn_cidrs = ["10.0.0.0/25"]
-vcn_names = ["myvcn-dr"]
-subnets_names = ["front","mid","back"]
-subnets_sizes = ["4","3","3"]
+vcn_cidrs     = ["10.0.0.0/25"]
+vcn_names     = ["myvcn-dr"]
+subnets_names = ["front", "mid", "back"]
+subnets_sizes = ["4", "3", "3"]
 
 exacs_vcn_cidrs           = ["10.2.0.0/20"]
 exacs_vcn_names           = ["exavcn-dr"]

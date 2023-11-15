@@ -3,23 +3,23 @@
 
 variable "tenancy_id" {
   description = "The tenancy ocid."
-  type = string
+  type        = string
 }
 
 variable "compartment_id" {
   description = "The compartment ocid where VSS recipes and targets are created."
-  type = string
+  type        = string
 }
 
 variable "vss_recipe_name" {
   description = "The recipe name. Use it to override the default one, that is either <name-prefix>-default-scan-recipe or default-scan-recipe."
-  type = string
-  default = "lz-scan-recipe"
+  type        = string
+  default     = "lz-scan-recipe"
 }
 
 variable "vss_scan_schedule" {
   description = "The scan schedule for the VSS recipe, if enabled. Valid values are WEEKLY or DAILY (case insensitive)."
-  type = string
+  type        = string
   default     = "WEEKLY"
   validation {
     condition     = contains(["WEEKLY", "DAILY"], upper(var.vss_scan_schedule))
@@ -39,8 +39,8 @@ variable "vss_scan_day" {
 
 variable "vss_port_scan_level" {
   description = "Valid values: STANDARD, LIGHT, NONE. STANDARD checks the 1000 most common port numbers, LIGHT checks the 100 most common port numbers, NONE does not check for open ports."
-  type = string
-  default = "STANDARD"
+  type        = string
+  default     = "STANDARD"
   validation {
     condition     = contains(["STANDARD", "LIGHT", "NONE"], upper(var.vss_port_scan_level))
     error_message = "Validation failed for vss_port_scan_level: valid values are STANDARD, LIGHT, NONE (case insensitive)."
@@ -49,8 +49,8 @@ variable "vss_port_scan_level" {
 
 variable "vss_agent_scan_level" {
   description = "Valid values: STANDARD, NONE. STANDARD enables agent-based scanning. NONE disables agent-based scanning and moots any agent related attributes."
-  type = string
-  default = "STANDARD"
+  type        = string
+  default     = "STANDARD"
   validation {
     condition     = contains(["STANDARD", "NONE"], upper(var.vss_agent_scan_level))
     error_message = "Validation failed for vss_agent_scan_level: valid values are STANDARD, NONE (case insensitive)."
@@ -59,8 +59,8 @@ variable "vss_agent_scan_level" {
 
 variable "vss_agent_cis_benchmark_settings_scan_level" {
   description = "Valid values: STRICT, MEDIUM, LIGHTWEIGHT, NONE. STRICT: If more than 20% of the CIS benchmarks fail, then the target is assigned a risk level of Critical. MEDIUM: If more than 40% of the CIS benchmarks fail, then the target is assigned a risk level of High. LIGHTWEIGHT: If more than 80% of the CIS benchmarks fail, then the target is assigned a risk level of High. NONE: disables cis benchmark scanning."
-  type = string
-  default = "MEDIUM"
+  type        = string
+  default     = "MEDIUM"
   validation {
     condition     = contains(["STRICT", "MEDIUM", "LIGHTWEIGHT", "NONE"], upper(var.vss_agent_cis_benchmark_settings_scan_level))
     error_message = "Validation failed for vss_agent_cis_benchmark_settings_scan_level: valid values are STRICT, MEDIUM, LIGHTWEIGHT, NONE (case insensitive)."
@@ -69,39 +69,39 @@ variable "vss_agent_cis_benchmark_settings_scan_level" {
 
 variable "vss_target_names" {
   description = "A list with the VSS target names."
-  type = list(string)
+  type        = list(string)
 }
 
 variable "vss_targets" {
   description = "The VSS targets. The map indexes MUST match the values in vss_target_names."
   type = map(object({
-    target_compartment_id = string
+    target_compartment_id   = string
     target_compartment_name = string
   }))
 }
 
 variable "defined_tags" {
-  description = "Any defined tags to apply on the VSS resources." 
-  type = map(string)
-  default = null
+  description = "Any defined tags to apply on the VSS resources."
+  type        = map(string)
+  default     = null
 }
 
 variable "freeform_tags" {
   description = "Any freeform tags to apply on the VSS resources."
-  type = map(string)
-  default = null
+  type        = map(string)
+  default     = null
 }
 
 variable "vss_enable_file_scan" {
   description = "Whether file scanning is enabled."
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }
 
 variable "vss_folders_to_scan" {
   description = "A list of folders to scan. Only applies if vss_enable_folder_scan is true."
-  type = list(string)
-  default = []
+  type        = list(string)
+  default     = []
 }
 
 variable "vss_custom_recipes" {

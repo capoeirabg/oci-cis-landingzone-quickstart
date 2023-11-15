@@ -13,29 +13,29 @@
 terraform {
   required_providers {
     oci = {
-      source  = "oracle/oci"
-      version = ">= 4.80.0"
-      configuration_aliases = [ oci, oci.home ] 
+      source                = "oracle/oci"
+      version               = ">= 4.80.0"
+      configuration_aliases = [oci, oci.home]
     }
   }
 }
 
 data "oci_identity_compartment" "this" {
   provider = oci.home
-  id = var.compartment_id
+  id       = var.compartment_id
 }
 
 data "oci_kms_vault" "these" {
   provider = oci
   for_each = var.managed_keys
-    vault_id = each.value.vault_id
+  vault_id = each.value.vault_id
 }
 
 locals {
   managed_keys_statements = flatten([
-    for k,v in var.managed_keys : concat(
+    for k, v in var.managed_keys : concat(
       [for sg in v.service_grantees : "Allow service ${sg} to use keys in compartment ${data.oci_identity_compartment.this.name} where target.key.id = '${oci_kms_key.these[k].id}'"],
-      [for gg in v.group_grantees   : "Allow group ${gg} to use key-delegate in compartment ${data.oci_identity_compartment.this.name} where target.key.id = '${oci_kms_key.these[k].id}'"]
+      [for gg in v.group_grantees : "Allow group ${gg} to use key-delegate in compartment ${data.oci_identity_compartment.this.name} where target.key.id = '${oci_kms_key.these[k].id}'"]
     )
   ])
 }
@@ -50,16 +50,16 @@ resource "oci_kms_key" "these" {
   lifecycle {
     create_before_destroy = true
   }
-  for_each = var.managed_keys
-    compartment_id       = var.compartment_id
-    display_name         = each.value.key_name
-    management_endpoint  = data.oci_kms_vault.these[each.key].management_endpoint
-    defined_tags         = var.defined_tags
-    freeform_tags        = var.freeform_tags
-    key_shape {
-      algorithm = each.value.key_shape_algorithm
-      length    = each.value.key_shape_length
-    }
+  for_each            = var.managed_keys
+  compartment_id      = var.compartment_id
+  display_name        = each.value.key_name
+  management_endpoint = data.oci_kms_vault.these[each.key].management_endpoint
+  defined_tags        = var.defined_tags
+  freeform_tags       = var.freeform_tags
+  key_shape {
+    algorithm = each.value.key_shape_algorithm
+    length    = each.value.key_shape_length
+  }
 }
 
 #------------------------------------------------------------------
@@ -70,13 +70,13 @@ resource "oci_identity_policy" "managed_keys" {
   lifecycle {
     create_before_destroy = true
   }
-  count = length(var.managed_keys) > 0 ? 1 : 0
-    name           = var.policy_name
-    description    = "CIS Landing Zone policy allowing access to keys in the Vault service."
-    compartment_id = var.policy_compartment_id
-    statements     = local.managed_keys_statements
-    defined_tags   = var.defined_tags
-    freeform_tags  = var.freeform_tags
+  count          = length(var.managed_keys) > 0 ? 1 : 0
+  name           = var.policy_name
+  description    = "CIS Landing Zone policy allowing access to keys in the Vault service."
+  compartment_id = var.policy_compartment_id
+  statements     = local.managed_keys_statements
+  defined_tags   = var.defined_tags
+  freeform_tags  = var.freeform_tags
 }
 
 #------------------------------------------------------------------
@@ -84,14 +84,14 @@ resource "oci_identity_policy" "managed_keys" {
 #-- Keys can live in different compartments.
 #------------------------------------------------------------------
 resource "oci_identity_policy" "existing_keys" {
-  provider = oci.home
-  for_each = var.existing_keys
-    name           = "${each.key}-policy"
-    description    = "CIS Landing Zone policy allowing access to keys in the Vault service."
-    compartment_id = each.value.compartment_id
-    statements     = concat(
-        [for sg in each.value.service_grantees : "Allow service ${sg} to use keys in compartment id ${each.value.compartment_id} where target.key.id = '${each.value.key_id}'"],
-        [for gg in each.value.group_grantees   : "Allow group ${gg} to use key-delegate in compartment id ${each.value.compartment_id} where target.key.id = '${each.value.key_id}'"])
-    defined_tags   = var.defined_tags
-    freeform_tags  = var.freeform_tags
+  provider       = oci.home
+  for_each       = var.existing_keys
+  name           = "${each.key}-policy"
+  description    = "CIS Landing Zone policy allowing access to keys in the Vault service."
+  compartment_id = each.value.compartment_id
+  statements = concat(
+    [for sg in each.value.service_grantees : "Allow service ${sg} to use keys in compartment id ${each.value.compartment_id} where target.key.id = '${each.value.key_id}'"],
+  [for gg in each.value.group_grantees : "Allow group ${gg} to use key-delegate in compartment id ${each.value.compartment_id} where target.key.id = '${each.value.key_id}'"])
+  defined_tags  = var.defined_tags
+  freeform_tags = var.freeform_tags
 }

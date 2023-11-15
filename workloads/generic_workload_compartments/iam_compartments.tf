@@ -14,13 +14,13 @@ locals {
   custom_cmps_defined_tags  = null
   custom_cmps_freeform_tags = null
 
-  workload_compartment_key = "key"
-  workload_compartment_name_prefix       = var.service_label
-  workload_compartment_name_suffix       = "cmp"
-  workload_group_prefix                 = var.service_label
-  workload_group_suffix                 = "workload-group"
-  appdev_dynamic_group_name_prefix    = var.service_label
-  appdev_dynamic_group_name_suffix    = "fun-dynamic-group"
+  workload_compartment_key         = "key"
+  workload_compartment_name_prefix = var.service_label
+  workload_compartment_name_suffix = "cmp"
+  workload_group_prefix            = var.service_label
+  workload_group_suffix            = "workload-group"
+  appdev_dynamic_group_name_prefix = var.service_label
+  appdev_dynamic_group_name_suffix = "fun-dynamic-group"
 
 }
 
@@ -53,8 +53,8 @@ locals {
 
   workload_compartments = { for cmp in var.workload_names : "${local.workload_compartment_name_prefix}-${cmp}-${local.workload_compartment_name_suffix}" => {
     name : "${local.workload_compartment_name_prefix}-${cmp}-${local.workload_compartment_name_suffix}",
-    workload_name : cmp, # This is used for dynamic groups
-    workload_group_name : "${local.workload_group_prefix}-${cmp}-${local.workload_group_suffix}", # For policeis
+    workload_name : cmp,                                                                                                        # This is used for dynamic groups
+    workload_group_name : "${local.workload_group_prefix}-${cmp}-${local.workload_group_suffix}",                               # For policeis
     workload_dynamic_group_name : "${local.appdev_dynamic_group_name_prefix}-${cmp}-${local.appdev_dynamic_group_name_suffix}", # For dynamic groups and policies
     description : "${cmp} workload compartment",
     parent_id : var.existing_lz_appdev_compartment_ocid,

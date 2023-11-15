@@ -22,14 +22,14 @@ terraform {
 #-- Managed buckets.
 #------------------------------------------------------------------
 resource "oci_objectstorage_bucket" "these" {
-  for_each = var.buckets
-    compartment_id = each.value.compartment_id
-    name           = each.value.name
-    namespace      = each.value.namespace 
-    #-- The try expression is expected to produce an error. 
-    #-- var.cis_level = 2 and var.kms_key_id = null is a CIS violation
-    kms_key_id     = var.cis_level == "2" ? (each.value.kms_key_id != null ? each.value.kms_key_id : try(substr(each.value.kms_key_id,0,0))) : each.value.kms_key_id
-    versioning     = "Enabled" 
-	  defined_tags   = each.value.defined_tags
-	  freeform_tags  = each.value.freeform_tags
+  for_each       = var.buckets
+  compartment_id = each.value.compartment_id
+  name           = each.value.name
+  namespace      = each.value.namespace
+  #-- The try expression is expected to produce an error. 
+  #-- var.cis_level = 2 and var.kms_key_id = null is a CIS violation
+  kms_key_id    = var.cis_level == "2" ? (each.value.kms_key_id != null ? each.value.kms_key_id : try(substr(each.value.kms_key_id, 0, 0))) : each.value.kms_key_id
+  versioning    = "Enabled"
+  defined_tags  = each.value.defined_tags
+  freeform_tags = each.value.freeform_tags
 }

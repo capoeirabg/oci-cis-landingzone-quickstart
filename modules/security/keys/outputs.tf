@@ -4,4 +4,4 @@
 output "keys" {
   description = "The managed keys."
   value       = oci_kms_key.these
-}  
+}

@@ -3,24 +3,24 @@
 
 variable "tenancy_id" {
   description = "The tenancy ocid."
-  type = string
+  type        = string
 }
 
 variable "service_label" {
   description = "The service label, use as a prefix to resource names."
-  type = string
+  type        = string
 }
 
 variable "enable_tenancy_level_policies" {
   description = "Whether policies for OCI services are enabled at the tenancy level."
-  type = bool
-  default = true
+  type        = bool
+  default     = true
 }
 
 variable "tenancy_policy_name" {
   description = "The policy name for tenancy level policies."
-  type = string
-  default = "services-policy"
+  type        = string
+  default     = "services-policy"
 }
 
 variable "policies" {
@@ -38,12 +38,12 @@ variable "policies" {
 
 variable "defined_tags" {
   description = "Policies defined tags."
-  type = map(string)
-  default = null
+  type        = map(string)
+  default     = null
 }
 
 variable "freeform_tags" {
   description = "Policies freeform tags."
-  type = map(string)
-  default = null
+  type        = map(string)
+  default     = null
 }

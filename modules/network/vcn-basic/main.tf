@@ -44,7 +44,7 @@ locals {
     ]
 
   ])
-  
+
   default_security_list_opt = {
     display_name   = "unnamed"
     compartment_id = null
@@ -60,95 +60,95 @@ data "oci_core_services" "all_services" {
 ### VCN
 resource "oci_core_vcn" "these" {
   for_each       = var.vcns
-    display_name   = each.key
-    dns_label      = each.value.dns_label
-    cidr_block     = each.value.cidr
-    compartment_id = each.value.compartment_id
-    defined_tags   = each.value.defined_tags
-    freeform_tags  = each.value.freeform_tags
+  display_name   = each.key
+  dns_label      = each.value.dns_label
+  cidr_block     = each.value.cidr
+  compartment_id = each.value.compartment_id
+  defined_tags   = each.value.defined_tags
+  freeform_tags  = each.value.freeform_tags
 }
 
 ### Internet Gateway
 resource "oci_core_internet_gateway" "these" {
   for_each       = { for k, v in var.vcns : k => v if v.is_create_igw == true }
-    compartment_id = each.value.compartment_id
-    vcn_id         = oci_core_vcn.these[each.key].id
-    display_name   = "${each.key}-igw"
-    defined_tags   = each.value.defined_tags
-    freeform_tags  = each.value.freeform_tags
+  compartment_id = each.value.compartment_id
+  vcn_id         = oci_core_vcn.these[each.key].id
+  display_name   = "${each.key}-igw"
+  defined_tags   = each.value.defined_tags
+  freeform_tags  = each.value.freeform_tags
 }
 
 ### NAT Gateway
 resource "oci_core_nat_gateway" "these" {
   for_each       = { for k, v in var.vcns : k => v if v.is_create_igw == true }
-    compartment_id = each.value.compartment_id
-    display_name   = "${each.key}-natgw"
-    vcn_id         = oci_core_vcn.these[each.key].id
-    block_traffic  = each.value.block_nat_traffic
-    defined_tags   = each.value.defined_tags
-    freeform_tags  = each.value.freeform_tags
+  compartment_id = each.value.compartment_id
+  display_name   = "${each.key}-natgw"
+  vcn_id         = oci_core_vcn.these[each.key].id
+  block_traffic  = each.value.block_nat_traffic
+  defined_tags   = each.value.defined_tags
+  freeform_tags  = each.value.freeform_tags
 }
 
 ### Service Gateway
 resource "oci_core_service_gateway" "these" {
   for_each       = var.vcns
-    compartment_id = each.value.compartment_id
-    display_name   = "${each.key}-sgw"
-    defined_tags   = each.value.defined_tags
-    freeform_tags  = each.value.freeform_tags
-    vcn_id         = oci_core_vcn.these[each.key].id
-    services {
-      service_id = local.osn_cidrs[var.service_gateway_cidr]
-    }
+  compartment_id = each.value.compartment_id
+  display_name   = "${each.key}-sgw"
+  defined_tags   = each.value.defined_tags
+  freeform_tags  = each.value.freeform_tags
+  vcn_id         = oci_core_vcn.these[each.key].id
+  services {
+    service_id = local.osn_cidrs[var.service_gateway_cidr]
+  }
 }
 
 ### DRG attachment to VCN
 resource "oci_core_drg_attachment" "these" {
-  for_each     = { for k, v in var.vcns : k => v if v.is_attach_drg == true }
-    drg_id        = var.drg_id
-    vcn_id        = oci_core_vcn.these[each.key].id
-    display_name  = "${each.key}-drg-attachment"
-    defined_tags  = each.value.defined_tags
-    freeform_tags = each.value.freeform_tags
+  for_each      = { for k, v in var.vcns : k => v if v.is_attach_drg == true }
+  drg_id        = var.drg_id
+  vcn_id        = oci_core_vcn.these[each.key].id
+  display_name  = "${each.key}-drg-attachment"
+  defined_tags  = each.value.defined_tags
+  freeform_tags = each.value.freeform_tags
 }
 
 ### Subnets
 resource "oci_core_subnet" "these" {
   for_each                   = { for subnet in local.subnets : "${subnet.vcn_name}.${subnet.subnet_key}" => subnet }
-    display_name               = each.value.display_name
-    vcn_id                     = oci_core_vcn.these[each.value.vcn_name].id
-    cidr_block                 = each.value.cidr
-    compartment_id             = each.value.compartment_id
-    prohibit_public_ip_on_vnic = each.value.private
-    dns_label                  = each.value.dns_label
-    dhcp_options_id            = each.value.dhcp_options_id
-    defined_tags               = each.value.defined_tags
-    freeform_tags              = each.value.freeform_tags
-    security_list_ids          = concat([oci_core_default_security_list.these[each.value.vcn_name].id], #oci_core_security_list.these["${sl.subnet_name}.${sl.sec_list_name}"].id]
-                                        [for sl in local.security_lists : oci_core_security_list.these["${sl.subnet_name}.${sl.sec_list_name}"].id if sl.subnet_name == each.value.display_name])
+  display_name               = each.value.display_name
+  vcn_id                     = oci_core_vcn.these[each.value.vcn_name].id
+  cidr_block                 = each.value.cidr
+  compartment_id             = each.value.compartment_id
+  prohibit_public_ip_on_vnic = each.value.private
+  dns_label                  = each.value.dns_label
+  dhcp_options_id            = each.value.dhcp_options_id
+  defined_tags               = each.value.defined_tags
+  freeform_tags              = each.value.freeform_tags
+  security_list_ids = concat([oci_core_default_security_list.these[each.value.vcn_name].id], #oci_core_security_list.these["${sl.subnet_name}.${sl.sec_list_name}"].id]
+  [for sl in local.security_lists : oci_core_security_list.these["${sl.subnet_name}.${sl.sec_list_name}"].id if sl.subnet_name == each.value.display_name])
 }
 
 resource "oci_core_default_security_list" "these" {
-  for_each = oci_core_vcn.these
-    manage_default_resource_id = each.value.default_security_list_id
-    ingress_security_rules {
-      protocol  = "1"
-      stateless = false
-      source    = "0.0.0.0/0"
-      icmp_options {
-        type = 3
-        code = 4
-      }
+  for_each                   = oci_core_vcn.these
+  manage_default_resource_id = each.value.default_security_list_id
+  ingress_security_rules {
+    protocol  = "1"
+    stateless = false
+    source    = "0.0.0.0/0"
+    icmp_options {
+      type = 3
+      code = 4
     }
-    ingress_security_rules {
-      protocol  = "1"
-      stateless = false
-      source    = each.value.cidr_block
-      icmp_options {
-        type = 3
-        code = null
-      }
+  }
+  ingress_security_rules {
+    protocol  = "1"
+    stateless = false
+    source    = each.value.cidr_block
+    icmp_options {
+      type = 3
+      code = null
     }
+  }
 }
 
 resource "oci_core_security_list" "these" {

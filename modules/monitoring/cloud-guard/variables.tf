@@ -7,7 +7,7 @@ variable "enable_cloud_guard" {
 }
 
 variable "tenancy_id" {
-  type = string
+  type        = string
   description = "The tenancy ocid, where Cloud Service is enabled."
 }
 
@@ -48,15 +48,15 @@ variable "target_resource_type" {
   type        = string
   default     = "COMPARTMENT"
   validation {
-    condition = contains(["COMPARTMENT","FACLOUD"], var.target_resource_type)
+    condition     = contains(["COMPARTMENT", "FACLOUD"], var.target_resource_type)
     error_message = "Invalid target_resource_type. Valid values are COMPARTMENT or FACLOUD."
   }
 }
 
 variable "enable_cloned_recipes" {
   description = "Whether cloned recipes are created and attached to the designated target. Existing managed targets that use the Oracle-managed recipes will have all open problems moved to 'resolved' state. For more details, see https://docs.oracle.com/en-us/iaas/cloud-guard/using/problems-page.htm#problems-page__sect_prob_lifecycle."
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }
 
 variable "configuration_detector_recipe_name" {

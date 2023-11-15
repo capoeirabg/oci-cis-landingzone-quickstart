@@ -11,11 +11,11 @@ terraform {
 
 ### Policies
 resource "oci_identity_policy" "these" {
-  for_each = {for k, v in var.policies : k => v if v != null}
-    name           = each.key
-    description    = each.value.description
-    compartment_id = each.value.compartment_id
-    statements     = each.value.statements
-    defined_tags   = each.value.defined_tags
-    freeform_tags  = each.value.freeform_tags
+  for_each       = { for k, v in var.policies : k => v if v != null }
+  name           = each.key
+  description    = each.value.description
+  compartment_id = each.value.compartment_id
+  statements     = each.value.statements
+  defined_tags   = each.value.defined_tags
+  freeform_tags  = each.value.freeform_tags
 }

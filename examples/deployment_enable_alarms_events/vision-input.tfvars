@@ -16,5 +16,5 @@ compute_admin_email_endpoints  = ["john.doe@myorg.com"]
 budget_admin_email_endpoints   = ["john.doe@myorg.com"]
 database_admin_email_endpoints = ["john.doe@myorg.com"]
 exainfra_admin_email_endpoints = ["john.doe@myorg.com"]
-create_alarms_as_enabled = true
-create_events_as_enabled = true      
+create_alarms_as_enabled       = true
+create_events_as_enabled       = true

@@ -11,11 +11,11 @@ region        = "us-ashburn-1"
 
 # (...) Endpoint notifications assignments. See example above.
 
-create_service_connector_audit = true
-service_connector_audit_state = "ACTIVE"
-service_connector_audit_target = "streaming"
-service_connector_audit_target_OCID = "ocid1.stream.oc1.phx.ama...qkb5ya"
-create_service_connector_vcnFlowLogs = true
-service_connector_vcnFlowLogs_state = "ACTIVE"
-service_connector_vcnFlowLogs_target = "streaming"
+create_service_connector_audit            = true
+service_connector_audit_state             = "ACTIVE"
+service_connector_audit_target            = "streaming"
+service_connector_audit_target_OCID       = "ocid1.stream.oc1.phx.ama...qkb5ya"
+create_service_connector_vcnFlowLogs      = true
+service_connector_vcnFlowLogs_state       = "ACTIVE"
+service_connector_vcnFlowLogs_target      = "streaming"
 service_connector_vcnFlowLogs_target_OCID = "ocid1.stream.oc1.phx.ama...qkb5ya"

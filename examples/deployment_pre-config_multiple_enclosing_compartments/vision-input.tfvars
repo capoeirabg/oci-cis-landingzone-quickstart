@@ -7,5 +7,5 @@ private_key_password = ""
 unique_prefix = "vision"
 home_region   = "us-ashburn-1"
 
-enclosing_compartment_names = ["cis_lz_dev","cis_lz_prd"]
+enclosing_compartment_names                 = ["cis_lz_dev", "cis_lz_prd"]
 existing_enclosing_compartments_parent_ocid = "ocid1.compartment.oc1..aaa...vves2a"

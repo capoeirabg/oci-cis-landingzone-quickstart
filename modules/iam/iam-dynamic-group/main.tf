@@ -10,11 +10,11 @@ terraform {
 }
 
 resource "oci_identity_dynamic_group" "these" {
-  for_each = var.dynamic_groups
-    name           = each.key
-    compartment_id = each.value.compartment_id
-    description    = each.value.description
-    matching_rule  = each.value.matching_rule
-    defined_tags   = each.value.defined_tags
-    freeform_tags  = each.value.freeform_tags
+  for_each       = var.dynamic_groups
+  name           = each.key
+  compartment_id = each.value.compartment_id
+  description    = each.value.description
+  matching_rule  = each.value.matching_rule
+  defined_tags   = each.value.defined_tags
+  freeform_tags  = each.value.freeform_tags
 }

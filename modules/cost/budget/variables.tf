@@ -36,16 +36,16 @@
 
 
 variable "budget" {
-    type = map(object({
-        tenancy_id                = string
-        budget_description        = string
-        budget_display_name       = string
-        compartment_id            = string
-        service_label             = string
-        budget_alert_threshold    = string
-        budget_amount             = number
-        defined_tags              = map(string)
-        freeform_tags             = map(string)
-        budget_alert_recipients   = string
-    }))
+  type = map(object({
+    tenancy_id              = string
+    budget_description      = string
+    budget_display_name     = string
+    compartment_id          = string
+    service_label           = string
+    budget_alert_threshold  = string
+    budget_amount           = number
+    defined_tags            = map(string)
+    freeform_tags           = map(string)
+    budget_alert_recipients = string
+  }))
 }

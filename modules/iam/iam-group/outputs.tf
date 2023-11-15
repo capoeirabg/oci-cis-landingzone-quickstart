@@ -14,7 +14,7 @@ output "group_name" {
 }
  */
 
- output "groups" {
+output "groups" {
   value = oci_identity_group.these
 }
 

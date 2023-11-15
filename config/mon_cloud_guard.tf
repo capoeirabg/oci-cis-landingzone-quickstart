@@ -2,18 +2,18 @@
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 locals {
-#--------------------------------------------------------------------------
-#-- Any of these custom variables can be overriden in a _override.tf file.
-#--------------------------------------------------------------------------  
+  #--------------------------------------------------------------------------
+  #-- Any of these custom variables can be overriden in a _override.tf file.
+  #--------------------------------------------------------------------------  
   #-- Custom target name
   custom_target_name = null
   #-- Custom names for cloned recipes
   custom_configuration_detector_recipe_name = null
-  custom_activity_detector_recipe_name = null
-  custom_threat_detector_recipe_name = null
-  custom_responder_recipe_name = null
+  custom_activity_detector_recipe_name      = null
+  custom_threat_detector_recipe_name        = null
+  custom_responder_recipe_name              = null
   #-- Custom tags
-  custom_cloud_guard_target_defined_tags = null
+  custom_cloud_guard_target_defined_tags  = null
   custom_cloud_guard_target_freeform_tags = null
 }
 
@@ -40,12 +40,12 @@ module "lz_cloud_guard" {
 }
 
 locals {
-#--------------------------------------------------------------------------
-#-- These variables are NOT meant to be overriden.
-#--------------------------------------------------------------------------
-  default_cloud_guard_target_defined_tags = null
+  #--------------------------------------------------------------------------
+  #-- These variables are NOT meant to be overriden.
+  #--------------------------------------------------------------------------
+  default_cloud_guard_target_defined_tags  = null
   default_cloud_guard_target_freeform_tags = local.landing_zone_tags
-  
-  cloud_guard_target_defined_tags = local.custom_cloud_guard_target_defined_tags != null ? merge(local.custom_cloud_guard_target_defined_tags, local.default_cloud_guard_target_defined_tags)  : local.default_cloud_guard_target_defined_tags
+
+  cloud_guard_target_defined_tags  = local.custom_cloud_guard_target_defined_tags != null ? merge(local.custom_cloud_guard_target_defined_tags, local.default_cloud_guard_target_defined_tags) : local.default_cloud_guard_target_defined_tags
   cloud_guard_target_freeform_tags = local.custom_cloud_guard_target_freeform_tags != null ? merge(local.custom_cloud_guard_target_freeform_tags, local.default_cloud_guard_target_freeform_tags) : local.default_cloud_guard_target_freeform_tags
 }

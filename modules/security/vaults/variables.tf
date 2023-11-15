@@ -4,7 +4,7 @@
 variable "compartment_id" {
   type        = string
   description = "The compartment OCID where the vault is managed."
-} 
+}
 
 variable "name" {
   type        = string

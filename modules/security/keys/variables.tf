@@ -9,12 +9,12 @@ variable "compartment_id" {
 variable "managed_keys" {
   description = "The keys to manage."
   type = map(object({
-    vault_id = string,
-    key_name = string,
+    vault_id            = string,
+    key_name            = string,
     key_shape_algorithm = string,
-    key_shape_length = string,
-    service_grantees = list(string),
-    group_grantees = list(string)
+    key_shape_length    = string,
+    service_grantees    = list(string),
+    group_grantees      = list(string)
   }))
   default = {}
 }
@@ -22,10 +22,10 @@ variable "managed_keys" {
 variable "existing_keys" {
   description = "Existing keys to manage policies for. A policy is managed for each existing key, but keys themselves are not managed."
   type = map(object({
-    key_id = string,
-    compartment_id = string,
+    key_id           = string,
+    compartment_id   = string,
     service_grantees = list(string),
-    group_grantees = list(string)
+    group_grantees   = list(string)
   }))
   default = {}
 }
@@ -34,7 +34,7 @@ variable "policy_name" {
   type        = string
   description = "The policy name for the managed_keys."
   default     = "lz-keys-policy"
-} 
+}
 
 variable "policy_compartment_id" {
   type        = string

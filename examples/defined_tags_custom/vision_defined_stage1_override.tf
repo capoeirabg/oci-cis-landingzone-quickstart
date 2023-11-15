@@ -2,7 +2,7 @@
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 locals {
-  tag_namespace_name    = "vision"
+  tag_namespace_name = "vision"
   all_tags = {
     ("CostCenter") = {
       tag_description         = "Tag for Cost Center."

@@ -2,12 +2,12 @@
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 locals {
-#------------------------------------------------------------------------------------------------------
-#-- Any of these local vars can be overriden in a _override.tf file
-#------------------------------------------------------------------------------------------------------
+  #------------------------------------------------------------------------------------------------------
+  #-- Any of these local vars can be overriden in a _override.tf file
+  #------------------------------------------------------------------------------------------------------
   custom_logging_analytics_log_group_name = null
-  custom_logging_analytics_defined_tags = null
-  custom_logging_analytics_freeform_tags = null
+  custom_logging_analytics_defined_tags   = null
+  custom_logging_analytics_freeform_tags  = null
 }
 
 module "lz_logging_analytics" {
@@ -21,16 +21,16 @@ module "lz_logging_analytics" {
 }
 
 locals {
-#------------------------------------------------------------------------------------------------------
-#-- These variables are NOT meant to be overriden
-#------------------------------------------------------------------------------------------------------
-#-- Logging Analytics tags 
-  default_logging_analytics_defined_tags = null
+  #------------------------------------------------------------------------------------------------------
+  #-- These variables are NOT meant to be overriden
+  #------------------------------------------------------------------------------------------------------
+  #-- Logging Analytics tags 
+  default_logging_analytics_defined_tags  = null
   default_logging_analytics_freeform_tags = local.landing_zone_tags
-  logging_analytics_defined_tags = local.custom_logging_analytics_defined_tags != null ? merge(local.custom_logging_analytics_defined_tags, local.default_logging_analytics_defined_tags) : local.default_logging_analytics_defined_tags
-  logging_analytics_freeform_tags = local.custom_logging_analytics_freeform_tags != null ? merge(local.custom_logging_analytics_freeform_tags, local.default_logging_analytics_freeform_tags) : local.default_logging_analytics_freeform_tags
+  logging_analytics_defined_tags          = local.custom_logging_analytics_defined_tags != null ? merge(local.custom_logging_analytics_defined_tags, local.default_logging_analytics_defined_tags) : local.default_logging_analytics_defined_tags
+  logging_analytics_freeform_tags         = local.custom_logging_analytics_freeform_tags != null ? merge(local.custom_logging_analytics_freeform_tags, local.default_logging_analytics_freeform_tags) : local.default_logging_analytics_freeform_tags
 
-#-- Logging Analytics resources naming 
+  #-- Logging Analytics resources naming 
   default_logging_analytics_log_group_name = "${var.service_label}-logging-analytics-log-group"
-  logging_analytics_log_group_name = local.custom_logging_analytics_log_group_name != null ? local.custom_logging_analytics_log_group_name : local.default_logging_analytics_log_group_name
+  logging_analytics_log_group_name         = local.custom_logging_analytics_log_group_name != null ? local.custom_logging_analytics_log_group_name : local.default_logging_analytics_log_group_name
 }

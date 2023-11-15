@@ -29,8 +29,8 @@ variable "unique_prefix" {
 }
 #Advanced options check box used in schema.yml
 variable "advanced_options" {
-  type        = bool
-  default     = false
+  type    = bool
+  default = false
 }
 
 variable "use_existing_provisioning_group" {
@@ -44,9 +44,9 @@ variable "existing_provisioning_group_name" {
   description = "The name of an existing group to be used for provisioning all resources in the compartments defined by enclosing_compartment_names variable. Ignored if use_existing_provisioning_group is false."
 }
 variable "enclosing_compartment_names" {
-    type    = list(string)
-    default = []
-    description = "The names of the enclosing compartments that will be created to hold Landing Zone compartments. If not provided, one compartment is created with default name <unique_prefix>-top-cmp."
+  type        = list(string)
+  default     = []
+  description = "The names of the enclosing compartments that will be created to hold Landing Zone compartments. If not provided, one compartment is created with default name <unique_prefix>-top-cmp."
 }
 variable "existing_enclosing_compartments_parent_ocid" {
   type        = string
@@ -92,12 +92,12 @@ variable "existing_auditor_group_name" {
   default = ""
 }
 variable "existing_announcement_reader_group_name" {
-    type    = string
-    default = ""
+  type    = string
+  default = ""
 }
 variable "existing_exainfra_admin_group_name" {
-    type    = string
-    default = ""
+  type    = string
+  default = ""
 }
 
 variable "existing_cost_admin_group_name" {
@@ -106,25 +106,25 @@ variable "existing_cost_admin_group_name" {
 }
 
 variable "existing_security_fun_dyn_group_name" {
-  type    = string
-  default = ""
+  type        = string
+  default     = ""
   description = "Existing dynamic group to be used by security functions."
 }
 
 variable "existing_appdev_fun_dyn_group_name" {
-  type    = string
-  default = ""
+  type        = string
+  default     = ""
   description = "Existing dynamic group to be used by application related functions."
 }
 
 variable "existing_compute_agent_dyn_group_name" {
-  type    = string
-  default = ""
+  type        = string
+  default     = ""
   description = "Existing dynamic group to be used by Compute's management agent."
 }
 
 variable "existing_database_kms_dyn_group_name" {
-  type    = string
-  default = ""
+  type        = string
+  default     = ""
   description = "Existing dynamic group to be used by databases to manage vaults and keys."
-}  
+}

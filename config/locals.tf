@@ -8,7 +8,7 @@ locals {
   regions_map_reverse = { for r in data.oci_identity_regions.these.regions : r.name => r.key } # All regions indexed by region name.
   home_region_key     = data.oci_identity_tenancy.this.home_region_key                         # Home region key obtained from the tenancy data source
   region_key          = lower(local.regions_map_reverse[var.region])                           # Region key obtained from the region name
-  
+
   ### Network
   anywhere                    = "0.0.0.0/0"
   valid_service_gateway_cidrs = ["all-${local.region_key}-services-in-oracle-services-network", "oci-${local.region_key}-objectstorage"]
@@ -17,7 +17,7 @@ locals {
   # Subnet Names used, can be used to change, add, or remove subnets first subnet will be Public if var.no_internet_access is false
   spoke_subnet_names = length(var.subnets_names) == 0 ? ["web", "app", "db"] : var.subnets_names
   # Subnets bit size used to adjust the size of the subnets created above, the number of items in this list must align to the subnets 
-  spoke_subnet_size  = length(var.subnets_sizes) == 0 ? [4,4,4] : var.subnets_sizes
+  spoke_subnet_size = length(var.subnets_sizes) == 0 ? [4, 4, 4] : var.subnets_sizes
   # Subnet Names used can be changed first subnet will be Public if var.no_internet_access is false
   dmz_subnet_names = ["outdoor", "indoor", "mgmt", "ha", "diag"]
   # Mgmg subnet is public by default.
@@ -29,7 +29,7 @@ locals {
   } : {}
 
   # Bastion
-  bastion_name = "${var.service_label}-bastion"
+  bastion_name                       = "${var.service_label}-bastion"
   bastion_max_session_ttl_in_seconds = 3 * 60 * 60 // 3 hrs.
 
   # Notifications
@@ -45,7 +45,7 @@ locals {
   display_outputs = true
 
   # Tags
-  landing_zone_tags = {"cis-landing-zone" : fileexists("${path.module}/../release.txt") ? "${var.service_label}-quickstart/${file("${path.module}/../release.txt")}" : "${var.service_label}-quickstart"}
+  landing_zone_tags = { "cis-landing-zone" : fileexists("${path.module}/../release.txt") ? "${var.service_label}-quickstart/${file("${path.module}/../release.txt")}" : "${var.service_label}-quickstart" }
 
   is_windows = substr(pathexpand("~"), 0, 1) == "/" ? false : true
 }

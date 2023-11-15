@@ -2,7 +2,7 @@
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 data "oci_objectstorage_namespace" "this" {
-  provider = oci
+  provider       = oci
   compartment_id = var.tenancy_id
 }
 
@@ -12,9 +12,9 @@ data "oci_log_analytics_namespaces" "these" {
 
 #-- This effectively enables Logging Analytics for the tenancy (or onboards the tenancy with Logging Analytics service).
 resource "oci_log_analytics_namespace" "this" {
-  count        = data.oci_log_analytics_namespaces.these.namespace_collection[0].items[0].is_onboarded ? 0 : 1
-  namespace    = data.oci_objectstorage_namespace.this.namespace
-  is_onboarded = true
+  count          = data.oci_log_analytics_namespaces.these.namespace_collection[0].items[0].is_onboarded ? 0 : 1
+  namespace      = data.oci_objectstorage_namespace.this.namespace
+  is_onboarded   = true
   compartment_id = var.tenancy_id
 }
 

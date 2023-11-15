@@ -3,5 +3,5 @@
 
 output "policies" {
   description = "The policies, are indexed by name."
-  value = {for c in oci_identity_policy.these : c.name => c}
+  value       = { for c in oci_identity_policy.these : c.name => c }
 } 

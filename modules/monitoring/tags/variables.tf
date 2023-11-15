@@ -4,25 +4,25 @@
 variable "tenancy_ocid" {
   type        = string
   description = "The tenancy ocid."
-} 
+}
 
 variable "tag_namespace_compartment_id" {
   type        = string
   description = "The default compartment ocid for tag namespace."
   default     = ""
-} 
+}
 
 variable "tag_defaults_compartment_id" {
   type        = string
   description = "The default compartment ocid for tag defaults."
   default     = ""
-} 
+}
 
 variable "tag_namespace_name" {
   type        = string
   description = "The tag namespace name"
   default     = ""
-}  
+}
 
 variable "tag_namespace_description" {
   type        = string
@@ -55,9 +55,9 @@ variable "oracle_default_namespace_name" {
 }
 
 variable "is_create_namespace" {
-  type = bool
+  type        = bool
   description = "Whether the namespace should be created."
-  default = true
+  default     = true
 }
 
 variable "tags" {

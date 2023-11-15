@@ -4,14 +4,14 @@
 ### Landing Zone tenancy level provisioning policy
 
 locals {
-  all_groups_policies_defined_tags = {}
+  all_groups_policies_defined_tags  = {}
   all_groups_policies_freeform_tags = {}
 
-  default_groups_policies_defined_tags = null
+  default_groups_policies_defined_tags  = null
   default_groups_policies_freeform_tags = local.landing_zone_tags
 
-  groups_policies_defined_tags = length(local.all_groups_policies_defined_tags) > 0 ? local.all_groups_policies_defined_tags : local.default_groups_policies_defined_tags
-  groups_policies_freeform_tags  = length(local.all_groups_policies_freeform_tags) > 0 ? merge(local.all_groups_policies_freeform_tags, local.default_groups_policies_freeform_tags) : local.default_groups_policies_freeform_tags
+  groups_policies_defined_tags  = length(local.all_groups_policies_defined_tags) > 0 ? local.all_groups_policies_defined_tags : local.default_groups_policies_defined_tags
+  groups_policies_freeform_tags = length(local.all_groups_policies_freeform_tags) > 0 ? merge(local.all_groups_policies_freeform_tags, local.default_groups_policies_freeform_tags) : local.default_groups_policies_freeform_tags
 }
 
 module "lz_provisioning_tenancy_group_policy" {
@@ -34,7 +34,7 @@ module "lz_provisioning_tenancy_group_policy" {
         "Allow group ${each.value.group_name} to read dynamic-groups in tenancy",                       # for dynamic-groups lookup        
         "Allow group ${each.value.group_name} to inspect tenancies in tenancy",                         # for home region lookup
         "Allow group ${each.value.group_name} to manage usage-budgets in tenancy",                      # for budget creation   
-        "Allow group ${each.value.group_name} to inspect users in tenancy"]                             # for users lookup
+      "Allow group ${each.value.group_name} to inspect users in tenancy"]                               # for users lookup
     }
   }
 }
@@ -68,7 +68,7 @@ module "lz_groups_mgmt_policy" {
       freeform_tags  = local.groups_policies_freeform_tags
       statements = [
         # Cost Admin - Access to Cost Reports 
-        "define tenancy usage-report as ocid1.tenancy.oc1..aaaaaaaaned4fkpkisbwjlr56u7cj63lf3wffbilvqknstgtvzub7vhqkggq", 
+        "define tenancy usage-report as ocid1.tenancy.oc1..aaaaaaaaned4fkpkisbwjlr56u7cj63lf3wffbilvqknstgtvzub7vhqkggq",
         # Security admin
         "Allow group ${each.value.group_name_prefix}${local.security_admin_group_name_suffix} to manage cloudevents-rules in tenancy",
         "Allow group ${each.value.group_name_prefix}${local.security_admin_group_name_suffix} to manage tag-namespaces in tenancy",
@@ -82,8 +82,8 @@ module "lz_groups_mgmt_policy" {
         "Allow group ${each.value.group_name_prefix}${local.iam_admin_group_name_suffix} to manage groups in tenancy where all {target.group.name != 'Administrators', target.group.name != '${each.value.group_name_prefix}${local.cred_admin_group_name_suffix}'}",
         # Cost Admin
         "Allow group ${each.value.group_name_prefix}${local.cost_admin_group_name_suffix} to manage usage-report in tenancy",
-        "Allow group ${each.value.group_name_prefix}${local.cost_admin_group_name_suffix} to manage usage-budgets in tenancy", 
-        "endorse group ${each.value.group_name_prefix}${local.cost_admin_group_name_suffix} to read objects in tenancy usage-report"]
+        "Allow group ${each.value.group_name_prefix}${local.cost_admin_group_name_suffix} to manage usage-budgets in tenancy",
+      "endorse group ${each.value.group_name_prefix}${local.cost_admin_group_name_suffix} to read objects in tenancy usage-report"]
     }
   }
 }
@@ -109,7 +109,7 @@ module "lz_groups_read_only_policy" {
         "Allow group ${each.value.group_name_prefix}${local.security_admin_group_name_suffix} to inspect buckets in tenancy",
         "Allow group ${each.value.group_name_prefix}${local.security_admin_group_name_suffix} to use cloud-shell in tenancy",
         "Allow group ${each.value.group_name_prefix}${local.security_admin_group_name_suffix} to read usage-budgets in tenancy",
-        "Allow group ${each.value.group_name_prefix}${local.security_admin_group_name_suffix} to read usage-reports in tenancy",                
+        "Allow group ${each.value.group_name_prefix}${local.security_admin_group_name_suffix} to read usage-reports in tenancy",
         # AppDev admin
         "Allow group ${each.value.group_name_prefix}${local.appdev_admin_group_name_suffix} to read repos in tenancy",
         "Allow group ${each.value.group_name_prefix}${local.appdev_admin_group_name_suffix} to read objectstorage-namespaces in tenancy",
@@ -117,7 +117,7 @@ module "lz_groups_read_only_policy" {
         "Allow group ${each.value.group_name_prefix}${local.appdev_admin_group_name_suffix} to read instance-images in tenancy",
         "Allow group ${each.value.group_name_prefix}${local.appdev_admin_group_name_suffix} to use cloud-shell in tenancy",
         "Allow group ${each.value.group_name_prefix}${local.appdev_admin_group_name_suffix} to read usage-budgets in tenancy",
-        "Allow group ${each.value.group_name_prefix}${local.appdev_admin_group_name_suffix} to read usage-reports in tenancy",                        
+        "Allow group ${each.value.group_name_prefix}${local.appdev_admin_group_name_suffix} to read usage-reports in tenancy",
         # Network admin
         "Allow group ${each.value.group_name_prefix}${local.network_admin_group_name_suffix} to read repos in tenancy",
         "Allow group ${each.value.group_name_prefix}${local.network_admin_group_name_suffix} to read objectstorage-namespaces in tenancy",
@@ -125,7 +125,7 @@ module "lz_groups_read_only_policy" {
         "Allow group ${each.value.group_name_prefix}${local.network_admin_group_name_suffix} to read instance-images in tenancy",
         "Allow group ${each.value.group_name_prefix}${local.network_admin_group_name_suffix} to use cloud-shell in tenancy",
         "Allow group ${each.value.group_name_prefix}${local.network_admin_group_name_suffix} to read usage-budgets in tenancy",
-        "Allow group ${each.value.group_name_prefix}${local.network_admin_group_name_suffix} to read usage-reports in tenancy",                        
+        "Allow group ${each.value.group_name_prefix}${local.network_admin_group_name_suffix} to read usage-reports in tenancy",
         # Database admin
         "Allow group ${each.value.group_name_prefix}${local.database_admin_group_name_suffix} to read repos in tenancy",
         "Allow group ${each.value.group_name_prefix}${local.database_admin_group_name_suffix} to read objectstorage-namespaces in tenancy",
@@ -133,7 +133,7 @@ module "lz_groups_read_only_policy" {
         "Allow group ${each.value.group_name_prefix}${local.database_admin_group_name_suffix} to read instance-images in tenancy",
         "Allow group ${each.value.group_name_prefix}${local.database_admin_group_name_suffix} to use cloud-shell in tenancy",
         "Allow group ${each.value.group_name_prefix}${local.database_admin_group_name_suffix} to read usage-budgets in tenancy",
-        "Allow group ${each.value.group_name_prefix}${local.database_admin_group_name_suffix} to read usage-reports in tenancy",                        
+        "Allow group ${each.value.group_name_prefix}${local.database_admin_group_name_suffix} to read usage-reports in tenancy",
         "Allow group ${each.value.group_name_prefix}${local.database_admin_group_name_suffix} to read data-safe-family in tenancy",
         # Cred admin
         "Allow group ${each.value.group_name_prefix}${local.cred_admin_group_name_suffix} to inspect users in tenancy",
@@ -165,7 +165,7 @@ module "lz_groups_read_only_policy" {
         "Allow group ${each.value.group_name_prefix}${local.auditor_group_name_suffix} to inspect buckets in tenancy",
         "Allow group ${each.value.group_name_prefix}${local.auditor_group_name_suffix} to use cloud-shell in tenancy",
         "Allow group ${each.value.group_name_prefix}${local.auditor_group_name_suffix} to read usage-budgets in tenancy",
-        "Allow group ${each.value.group_name_prefix}${local.auditor_group_name_suffix} to read usage-reports in tenancy",                        
+        "Allow group ${each.value.group_name_prefix}${local.auditor_group_name_suffix} to read usage-reports in tenancy",
         "Allow group ${each.value.group_name_prefix}${local.auditor_group_name_suffix} to read data-safe-family in tenancy"
       ]
     }
@@ -183,7 +183,7 @@ module "lz_provisioning_topcmp_dynamic_group_policy" {
       description    = "Landing Zone provisioning policy for managing vaults and keys in ${each.value.name} compartment."
       defined_tags   = local.groups_policies_defined_tags
       freeform_tags  = local.groups_policies_freeform_tags
-      statements     = length(trimspace(var.existing_database_kms_dyn_group_name)) > 0 ? ["Allow dynamic-group ${var.existing_database_kms_dyn_group_name} to manage vaults in compartment ${each.value.name}","Allow dynamic-group ${var.existing_database_kms_dyn_group_name} to manage keys in compartment ${each.value.name}"] : ["Allow dynamic-group ${each.key}-database-kms-dynamic-group to manage vaults in compartment ${each.value.name}", "Allow dynamic-group ${each.key}-database-kms-dynamic-group to manage keys in compartment ${each.value.name}"]
+      statements     = length(trimspace(var.existing_database_kms_dyn_group_name)) > 0 ? ["Allow dynamic-group ${var.existing_database_kms_dyn_group_name} to manage vaults in compartment ${each.value.name}", "Allow dynamic-group ${var.existing_database_kms_dyn_group_name} to manage keys in compartment ${each.value.name}"] : ["Allow dynamic-group ${each.key}-database-kms-dynamic-group to manage vaults in compartment ${each.value.name}", "Allow dynamic-group ${each.key}-database-kms-dynamic-group to manage keys in compartment ${each.value.name}"]
     }
   }
 }

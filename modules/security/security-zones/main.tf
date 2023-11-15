@@ -31,7 +31,7 @@ locals {
   # Security Zone recipes aligned to CIS 1.2 Level 2
   cis_1_2_l2_policy_names = ["deny block_volume_without_vault_key", "deny boot_volume_without_vault_key", "deny buckets_without_vault_key", "deny file_system_without_vault_key"]
 
-  sz_policies = {for policy in data.oci_cloud_guard_security_policies.these.security_policy_collection[0].items : policy.friendly_name => policy.id}
+  sz_policies = { for policy in data.oci_cloud_guard_security_policies.these.security_policy_collection[0].items : policy.friendly_name => policy.id }
 
   cis_1_2_l1_policy_ocids = [for name in local.cis_1_2_l1_policy_names : local.sz_policies[name]]
   cis_1_2_l2_policy_ocids = [for name in local.cis_1_2_l2_policy_names : local.sz_policies[name]]
@@ -45,9 +45,9 @@ locals {
   # "ocid1.securityzonessecuritypolicy.oc1..aaaaaaaaxxs63ulmtcnxqmcvy6eaozh5jdtiaa2bk7wll5bbdsbnmmoczp5a"
   # "ocid1.securityzonessecuritypolicy.oc1..aaaaaaaaqmq4jqcxqbjj5cjzb7t5ira66dctyypq2m2o4psxmx6atp45lyda"
   # "ocid1.securityzonessecuritypolicy.oc1..aaaaaaaaff6n52aojbgdg46jpm3kn7nizmh6iwvr7myez7svtfxsfs7irigq"
-  
+
   landing_zone_security_policies = coalesce(var.cis_level, "1") == "2" ? setunion(local.cis_1_2_l2_policy_ocids, local.cis_1_2_l1_policy_ocids, coalesce(var.security_policies, [])) : setunion(local.cis_1_2_l1_policy_ocids, coalesce(var.security_policies, []))
-  
+
   security_zones = { for k, v in var.sz_target_compartments : k => {
     compartment_id         = v.sz_compartment_id
     sz_display_name        = "${v.sz_compartment_name}-${local.sz_suffix}"

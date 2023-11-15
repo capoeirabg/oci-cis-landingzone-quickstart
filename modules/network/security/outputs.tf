@@ -4,8 +4,8 @@
 output "security_lists" {
   description = "The security list(s) created/managed."
   value = {
-    for i in oci_core_security_list.these:
-      i.display_name => i
+    for i in oci_core_security_list.these :
+    i.display_name => i
   }
 }
 

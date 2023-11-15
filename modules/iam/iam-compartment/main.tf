@@ -10,11 +10,11 @@ terraform {
 }
 
 resource "oci_identity_compartment" "these" {
-  for_each = var.compartments
-    compartment_id = each.value.parent_id
-    name           = each.value.name
-    description    = each.value.description
-    enable_delete  = each.value.enable_delete
-    defined_tags   = each.value.defined_tags
-    freeform_tags  = each.value.freeform_tags
+  for_each       = var.compartments
+  compartment_id = each.value.parent_id
+  name           = each.value.name
+  description    = each.value.description
+  enable_delete  = each.value.enable_delete
+  defined_tags   = each.value.defined_tags
+  freeform_tags  = each.value.freeform_tags
 }

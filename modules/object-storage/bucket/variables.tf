@@ -9,14 +9,14 @@ variable "buckets" {
     namespace      = string,
     kms_key_id     = string,
     defined_tags   = map(string),
-    freeform_tags   = map(string)
+    freeform_tags  = map(string)
   }))
 }
 
 variable "cis_level" {
-  type = string
+  type        = string
   description = "The CIS OCI Benchmark profile level for buckets. Level 1 is be practical and prudent. Level 2 is intended for environments where security is more critical than manageability and usability."
-  default = "1"
+  default     = "1"
   validation {
     condition     = contains(["1", "2"], var.cis_level)
     error_message = "Validation failed for cis_level: valid values are 1 or 2."

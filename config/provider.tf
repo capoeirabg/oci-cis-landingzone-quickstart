@@ -20,7 +20,7 @@ provider "oci" {
   private_key_password = var.private_key_password
 }
 
- terraform {
+terraform {
   required_version = ">= 1.2.0, < 1.3.0"
 
   required_providers {
@@ -30,4 +30,4 @@ provider "oci" {
       configuration_aliases = [oci.home]
     }
   }
-} 
+}

@@ -4,5 +4,5 @@
 
 output "alarms" {
   description = "The topcs, indexed by keys in var.topics."
-  value = {for k, v in var.alarms : k => oci_monitoring_alarm.these[k]}
+  value       = { for k, v in var.alarms : k => oci_monitoring_alarm.these[k] }
 } 

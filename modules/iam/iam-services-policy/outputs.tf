@@ -3,5 +3,5 @@
 
 output "policies" {
   description = "The policies."
-  value = oci_identity_policy.these
+  value       = oci_identity_policy.these
 }  
