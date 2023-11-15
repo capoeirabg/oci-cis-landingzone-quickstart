@@ -72,6 +72,12 @@ variable "service_label" {
   default     = ""
 }
 
+variable "branding_tag" {
+  description = "Branding tag suffix used in your CIS Landing Zone deployment."
+  type        = string
+  default     = ""
+}
+
 variable "existing_lz_enclosing_compartment_ocid" {
   description = "Enclosing/parent compartment used in your CIS Landing Zone deployment."
   type        = string
