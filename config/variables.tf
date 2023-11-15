@@ -31,8 +31,8 @@ variable "service_label" {
 }
 variable "branding_tag" {
   validation {
-    condition     = length(regexall("^[A-Za-z][A-Za-z0-9]{1,7}$", var.service_label)) > 0
-    error_message = "Validation failed for service_label: value is required and must contain alphanumeric characters only, starting with a letter up to a maximum of 8 characters."
+    condition     = length(regexall("^[A-Za-z][A-Za-z0-9]{1,14}$", var.branding_tag)) > 0
+    error_message = "Validation failed for branding_tag: value is required and must contain alphanumeric characters only, starting with a letter up to a maximum of 8 characters."
   }
 }
 variable "cis_level" {
