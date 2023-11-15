@@ -34,7 +34,7 @@ locals {
   grant_tenancy_level_mgmt_policies = true
 
   # Tags
-  landing_zone_tags = { "cis-landing-zone" : "${var.unique_prefix}-quickstart" }
+  landing_zone_tags = { "cis-landing-zone" : "${var.unique_prefix}" }
 
   # Delay in seconds for slowing down resource creation
   delay_in_secs = 70
